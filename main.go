@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"runtime"
 	"time"
@@ -292,18 +293,50 @@ func main() {
 		return
 	}
 
-	// Default: on Windows, try launching bundled Windows TUI binary; else launch Python TUI if available, else print usage
+	// Default: on Windows, prefer launching Python TUI if present, else try bundled Windows TUI binary; avoid exec-self recursion
 	if runtime.GOOS == "windows" {
-		exe := "tmp-bluedart-windows-amd64.exe"
-		if _, err := os.Stat(exe); err == nil {
-			cmd := exec.Command(exe)
+		// If Python TUI exists, prefer it (Windows users can install windows-curses)
+		if _, err := os.Stat("track_shipments.py"); err == nil {
+			py := "python"
+			if _, err := exec.LookPath("python3"); err == nil {
+				py = "python3"
+			}
+			cmd := exec.Command(py, "track_shipments.py")
 			cmd.Stdin = os.Stdin
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 			if err := cmd.Run(); err != nil {
-				fmt.Fprintf(os.Stderr, "Error launching Windows TUI: %v\n", err)
+				fmt.Fprintf(os.Stderr, "Error launching Python TUI: %v\n", err)
 			}
 			return
+		}
+
+		exe := "tmp-bluedart-windows-amd64.exe"
+		// avoid executing the same binary (exec-self)
+		if path, err := os.Executable(); err == nil {
+			if filepath.Base(path) != exe {
+				if _, err := os.Stat(exe); err == nil {
+					cmd := exec.Command(exe)
+					cmd.Stdin = os.Stdin
+					cmd.Stdout = os.Stdout
+					cmd.Stderr = os.Stderr
+					if err := cmd.Run(); err != nil {
+						fmt.Fprintf(os.Stderr, "Error launching Windows TUI: %v\n", err)
+					}
+					return
+				}
+			}
+		} else {
+			if _, err := os.Stat(exe); err == nil {
+				cmd := exec.Command(exe)
+				cmd.Stdin = os.Stdin
+				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
+				if err := cmd.Run(); err != nil {
+					fmt.Fprintf(os.Stderr, "Error launching Windows TUI: %v\n", err)
+				}
+				return
+			}
 		}
 	}
 	if _, err := os.Stat("track_shipments.py"); err == nil {
