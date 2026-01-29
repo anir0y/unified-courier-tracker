@@ -1,7 +1,35 @@
-Excited to announce my latest project: a sleek website for effortless courier tracking! 🚀
+<!-- macos-start -->
+## Install on macOS
 
-Whether you're waiting for a package or managing shipments, https://courier.anir0y.in/ lets you track deliveries in real-time with simple, intuitive features. The code behind it was crafted using AI—no more endless refresh loops or confusing interfaces.
+Option 1 — After the Homebrew PR is merged:
 
-I'd love your feedback! Give it a try and let me know what you think. Open to collaborations or suggestions to make it even better.
+```bash
+brew install unified-courier-tracker
+```
 
-#CourierTracking 
+Option 2 — Install directly from the branch (builds from source):
+
+```bash
+brew install --build-from-source https://raw.githubusercontent.com/anir0y/homebrew-core/unified-courier-tracker/Formula/unified-courier-tracker.rb
+```
+
+Option 3 — Tap the fork and install:
+
+```bash
+brew tap anir0y/homebrew-core https://github.com/anir0y/homebrew-core
+brew install unified-courier-tracker
+```
+
+Option 4 — Manual install (no Homebrew formula):
+
+```bash
+brew install python
+curl -L -o /usr/local/bin/unified-courier-tracker https://raw.githubusercontent.com/anir0y/unified-courier-tracker/main/track_shipments.py
+chmod +x /usr/local/bin/unified-courier-tracker
+unified-courier-tracker --help
+```
+
+Notes: The script uses only Python's standard library (urllib.request, urllib.error, json, argparse, os, curses, time, html.parser). Ensure Python 3.12+ is installed.
+
+Last updated: 2026-01-29T13:03:48.701Z
+<!-- macos-end -->
