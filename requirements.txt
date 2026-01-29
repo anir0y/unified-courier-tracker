@@ -1,0 +1,12 @@
+# This project uses only Python standard library modules
+# No external dependencies are required
+# 
+# Minimum Python version: 3.6+
+# 
+# Standard library modules used:
+# - urllib (for HTTP requests)
+# - json (for JSON parsing)
+# - argparse (for CLI argument parsing)
+# - curses (for terminal UI - available on Unix-like systems)
+# - sys, os, time (for system operations)
+# - html.parser (for HTML parsing)
