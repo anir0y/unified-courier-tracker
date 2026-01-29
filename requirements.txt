@@ -1,12 +1,17 @@
-# This project uses only Python standard library modules
-# No external dependencies are required
-# 
-# Minimum Python version: 3.6+
-# 
-# Standard library modules used:
-# - urllib (for HTTP requests)
-# - json (for JSON parsing)
-# - argparse (for CLI argument parsing)
-# - curses (for terminal UI - available on Unix-like systems)
-# - sys, os, time (for system operations)
-# - html.parser (for HTML parsing)
+# The script uses only Python Standard Library modules.
+# No external dependencies are required for macOS or Linux.
+#
+# Modules used:
+# - urllib.request
+# - urllib.error
+# - json
+# - sys
+# - argparse
+# - os
+# - curses
+# - time
+# - html.parser
+
+# Note: The 'curses' module is built-in on macOS/Linux. 
+# For Windows support, you would need the following:
+windows-curses; sys_platform == 'win32'
